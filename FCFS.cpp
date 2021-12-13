@@ -12,17 +12,55 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+vector<int> findWT(vector<int> bt) {
+  vector<int> wt = {0};
+
+  for (int i = 1; i < bt.size(); i++) {
+    wt.push_back(bt[i - 1] + wt[i - 1]);
+  }
+
+  return wt;
+}
+
+vector<int> findTAT(vector<int> wt, vector<int> bt) {
+  vector<int> tat;
+
+  for (int i = 0; i < bt.size(); i++) {
+    tat.push_back(wt[i] + bt[i]);
+  }
+
+  return tat;
+}
+
+void printAvg(vector<int> vec, string msg) {
+  int total = 0;
+  for (int x : vec) {
+    total += x;
+  }
+
+  cout << "Avarage " << msg << " = " << total / vec.size() << endl;
+}
+
 int main() {
 
-#ifndef ONLINE_JUDGE
-  freopen("input.txt", "r", stdin);
   freopen("output.txt", "w", stdout);
-#endif
 
-  vector<string> processes = {"p1", "p2", "p3"};
+  vector<string> processes = {"P1", "P2", "P3"};
   vector<int> brust_time = {24, 3, 4};
+  vector<int> wt;
+  vector<int> tat;
 
-  cout << processes[1] << brust_time[2];
+  wt = findWT(brust_time);
+  tat = findTAT(wt, brust_time);
 
+  cout << "Process BT   WT    TAT " << endl;
+  cout << "-----------------------" << endl;
+  for (int i = 0; i < wt.size(); i++) {
+    cout << processes[i] << "      " << brust_time[i] << "    " << wt[i]
+         << "    " << tat[i] << endl;
+  }
+
+  printAvg(wt, "Waiting Time");
+  printAvg(tat, "Turn Arround Time");
   return 0;
 }

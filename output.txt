@@ -1,1 +1,7 @@
-p24
+Process BT   WT    TAT 
+-----------------------
+P1      24    0    24
+P2      3    24    27
+P3      4    27    31
+Avarage Waiting Time = 17
+Avarage Turn Arround Time = 27
