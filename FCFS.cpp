@@ -47,8 +47,8 @@ int main() {
 
   vector<string> processes = {"P1", "P2", "P3"};
   vector<int> brust_time = {24, 3, 4};
-  vector<int> wt;
-  vector<int> tat;
+  vector<int> wt;  // Waiting time
+  vector<int> tat; // Turn arround time
 
   wt = findWT(brust_time);
   tat = findTAT(wt, brust_time);
