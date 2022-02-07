@@ -64,3 +64,9 @@ int main() {
   printAvg(tat, "Turn Arround Time");
   return 0;
 }
+
+// Inputs
+
+//p1 24 - Process ID, Burst time
+//p2 3
+//p3 4

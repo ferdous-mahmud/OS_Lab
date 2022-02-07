@@ -1,5 +1,7 @@
 # exec
 /FCFS
-/SJF_Non_Preemptive
-/Prirority_scheduling_Nonpreemptive
+/SJF
 /Prirority_scheduling_Preemptive
+/Prirority_scheduling_Nonpreemptive
+/Round_robin
+/SRTF

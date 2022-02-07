@@ -1,19 +1,4 @@
-//     Priority scheduling preemptive
-//  
-//     AT - Arrival Time of the process
-//     BT - Burst time of the process
-//     ST - Start time of the process
-//     CT - Completion time of the process
-//     TAT - Turnaround time of the process
-//     WT - Waiting time of the process
-//     RT - Response time of the process
-
-//     Formulas :
-
-//     TAT = CT - AT
-//     WT = TAT - BT
-//     RT = ST - AT
-
+// SRTF => Shortest Remaining Time First
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -22,7 +7,6 @@ struct process {
     int pid;
     int arrival_time;
     int burst_time;
-    int priority;
     int start_time;
     int completion_time;
     int turnaround_time;
@@ -55,8 +39,6 @@ int main() {
         cin>>p[i].arrival_time;
         cout<<"Enter burst time of process "<<i+1<<": ";
         cin>>p[i].burst_time;
-        cout<<"Enter priority of the process "<<i+1<<": ";
-        cin>>p[i].priority;
         p[i].pid = i+1;
         burst_remaining[i] = p[i].burst_time;
         cout<<endl;
@@ -68,16 +50,16 @@ int main() {
 
     while(completed != n) {
         int idx = -1;
-        int mx = -1;
+        int mn = 10000000;
         for(int i = 0; i < n; i++) {
             if(p[i].arrival_time <= current_time && is_completed[i] == 0) {
-                if(p[i].priority > mx) {
-                    mx = p[i].priority;
+                if(burst_remaining[i] < mn) {
+                    mn = burst_remaining[i];
                     idx = i;
                 }
-                if(p[i].priority == mx) {
+                if(burst_remaining[i] == mn) {
                     if(p[i].arrival_time < p[idx].arrival_time) {
-                        mx = p[i].priority;
+                        mn = burst_remaining[i];
                         idx = i;
                     }
                 }
@@ -125,22 +107,26 @@ int main() {
 
     freopen("output.txt","w", stdout);
 
-    cout<<"#P\t"<<"AT\t"<<"BT\t"<<"PRI\t"<<"ST\t"<<"CT\t"<<"TAT\t"<<"WT\t"<<"RT\t"<<endl;
+    cout<<"#P\t"<<"AT\t"<<"BT\t"<<"ST\t"<<"CT\t"<<"TAT\t"<<"WT\t"<<"RT\t"<<endl;
 
-    cout << "----------------------------------" << endl;
+    cout << "------------------------------" << endl;
 
     for(int i = 0; i < n; i++) {
-        cout<<p[i].pid<<"\t"<<p[i].arrival_time<<"\t"<<p[i].burst_time<<"\t"<<p[i].priority<<"\t"<<p[i].start_time<<"\t"<<p[i].completion_time<<"\t"<<p[i].turnaround_time<<"\t"<<p[i].waiting_time<<"\t"<<p[i].response_time<<"\t"<<"\n"<<endl;
+        cout<<p[i].pid<<"\t"<<p[i].arrival_time<<"\t"<<p[i].burst_time<<"\t"<<p[i].start_time<<"\t"<<p[i].completion_time<<"\t"<<p[i].turnaround_time<<"\t"<<p[i].waiting_time<<"\t"<<p[i].response_time<<"\t"<<"\n"<<endl;
     }
     cout<<"Average Turnaround Time = "<<avg_turnaround_time<<endl;
     cout<<"Average Waiting Time = "<<avg_waiting_time<<endl;
     cout<<"Average Response Time = "<<avg_response_time<<endl;
+
+
 }
 
-
 // Inputs
-// 4 - Number of processes
-// 0 8 6 - Arrival time, Burst time, Priority
-// 1 6 8
-// 2 4 12
-// 3 2 10
+
+// 5 - Number of processes
+// 0 4 - Arrival time , Burst time
+// 2 2
+// 3 1
+// 5 3
+// 6 2
+//

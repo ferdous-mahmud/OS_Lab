@@ -98,7 +98,9 @@ int main() {
 
     freopen("output.txt","w", stdout);
 
-    cout<<"#P\t"<<"AT\t"<<"BT\t"<<"PRI\t"<<"ST\t"<<"CT\t"<<"TAT\t"<<"WT\t"<<"RT\t"<<"\n"<<endl;
+    cout<<"#P\t"<<"AT\t"<<"BT\t"<<"PRI\t"<<"ST\t"<<"CT\t"<<"TAT\t"<<"WT\t"<<"RT\t"<<endl;
+
+    cout << "----------------------------------" << endl;
 
     for(int i = 0; i < n; i++) {
         cout<<p[i].pid<<"\t"<<p[i].arrival_time<<"\t"<<p[i].burst_time<<"\t"<<p[i].priority<<"\t"<<p[i].start_time<<"\t"<<p[i].completion_time<<"\t"<<p[i].turnaround_time<<"\t"<<p[i].waiting_time<<"\t"<<p[i].response_time<<"\t"<<"\n"<<endl;
@@ -111,8 +113,8 @@ int main() {
 
 // Inputs
 
-// 5
-// 0 1 3
+// 5 - Number of processes
+// 0 1 3 - Arrival time, Burst time, Priority
 // 2 1 1
 // 2 4 2
 // 3 2 2
