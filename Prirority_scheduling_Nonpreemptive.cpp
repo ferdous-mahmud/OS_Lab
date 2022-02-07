@@ -1,16 +1,3 @@
-// SJF(Shortest Job First)
-
-//     #Given : Process Name, Arrival Time, Brust Time
-
-//     #TO_Find : Completion Time, Turn Arround Time, Waiting Time, Response Time
-
-//     #Terms : Run minimun brust time's process first
-//              Mode:   Non-Preemptive
-//              TAT = CT - AT   (CT=Completion Time, AT=Arrival Time)
-//              WT = TAT - BT
-//              Response Time = For non preemptive same as waiting time
-
-
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -18,6 +5,7 @@ struct process {
     int pid;
     int arrival_time;
     int burst_time;
+    int priority;
     int start_time;
     int completion_time;
     int turnaround_time;
@@ -25,7 +13,8 @@ struct process {
     int response_time;
 };
 
-int main(void){
+int main() {
+
     int n;
     struct process p[100];
     float avg_turnaround_time;
@@ -47,25 +36,28 @@ int main(void){
         cin>>p[i].arrival_time;
         cout<<"Enter burst time of process "<<i+1<<": ";
         cin>>p[i].burst_time;
+        cout<<"Enter priority of the process "<<i+1<<": ";
+        cin>>p[i].priority;
         p[i].pid = i+1;
         cout<<endl;
     }
 
     int current_time = 0;
     int completed = 0;
+    int prev = 0;
 
     while(completed != n) {
         int idx = -1;
-        int mn = 10000000;
+        int mx = -1;
         for(int i = 0; i < n; i++) {
             if(p[i].arrival_time <= current_time && is_completed[i] == 0) {
-                if(p[i].burst_time < mn) {
-                    mn = p[i].burst_time;
+                if(p[i].priority > mx) {
+                    mx = p[i].priority;
                     idx = i;
                 }
-                if(p[i].burst_time == mn) {
+                if(p[i].priority == mx) {
                     if(p[i].arrival_time < p[idx].arrival_time) {
-                        mn = p[i].burst_time;
+                        mx = p[i].priority;
                         idx = i;
                     }
                 }
@@ -85,11 +77,19 @@ int main(void){
             is_completed[idx] = 1;
             completed++;
             current_time = p[idx].completion_time;
+            prev = current_time;
         }
         else {
             current_time++;
         }
         
+    }
+
+    int min_arrival_time = 10000000;
+    int max_completion_time = -1;
+    for(int i = 0; i < n; i++) {
+        min_arrival_time = min(min_arrival_time,p[i].arrival_time);
+        max_completion_time = max(max_completion_time,p[i].completion_time);
     }
 
     avg_turnaround_time = (float) total_turnaround_time / n;
@@ -98,23 +98,22 @@ int main(void){
 
     freopen("output.txt","w", stdout);
 
-    cout<<"#P\t"<<"AT\t"<<"BT\t"<<"ST\t"<<"CT\t"<<"TAT\t"<<"WT\t"<<"RT\t"<<"\n"<<endl;
+    cout<<"#P\t"<<"AT\t"<<"BT\t"<<"PRI\t"<<"ST\t"<<"CT\t"<<"TAT\t"<<"WT\t"<<"RT\t"<<"\n"<<endl;
 
     for(int i = 0; i < n; i++) {
-        cout<<p[i].pid<<"\t"<<p[i].arrival_time<<"\t"<<p[i].burst_time<<"\t"<<p[i].start_time<<"\t"<<p[i].completion_time<<"\t"<<p[i].turnaround_time<<"\t"<<p[i].waiting_time<<"\t"<<p[i].response_time<<"\t"<<"\n"<<endl;
+        cout<<p[i].pid<<"\t"<<p[i].arrival_time<<"\t"<<p[i].burst_time<<"\t"<<p[i].priority<<"\t"<<p[i].start_time<<"\t"<<p[i].completion_time<<"\t"<<p[i].turnaround_time<<"\t"<<p[i].waiting_time<<"\t"<<p[i].response_time<<"\t"<<"\n"<<endl;
     }
     cout<<"Avg Turnaround Time = "<<avg_turnaround_time<<endl;
     cout<<"Avg Waiting Time = "<<avg_waiting_time<<endl;
     cout<<"Avg Response Time = "<<avg_response_time<<endl;
- 
-    return 0;
-}
 
+}
 
 // Inputs
 
-// 4
-// 1 1
-// 3 3
-// 4 2
-// 5 2
+// 5
+// 0 1 3
+// 2 1 1
+// 2 4 2
+// 3 2 2
+// 5 3 4
